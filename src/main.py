@@ -12,7 +12,7 @@ warnings.filterwarnings("ignore")
 from GRU import GRU
 from IndexData import IndexData
 
-data_source = 'https://github.com/SBodapati11/ML-Test_Repo/blob/main/data/all_stocks_5yr.parquet?raw=true'
+data_source = 'https://github.com/nikhilmanda9/ML-Stock-Market-Prediction/blob/main/all_stocks_5yr.parquet?raw=true'
 
 # Create a log file and try different parameters for the GRU model
 def hyperparameter_tuning():
@@ -145,8 +145,7 @@ def plot_sequenced(filepath, best_params):
   # Plot predicted data
   print(best_params['test_output'][0])
   predicted_data = best_params['scaler'].inverse_transform(best_params['test_output'][0])
-  print(predicted_data)
-  predicted_data = [np.mean(arr) for arr in predicted_data]
+  predicted_data = [np.max(arr) for arr in predicted_data]
   plt.plot(best_params['test_dates'], predicted_data, color='g')
 
   plt.title("Daily S&P 500 Index (sequenced)")
@@ -175,10 +174,10 @@ if __name__ == '__main__':
   best_params = best_parameters(parameter_values)
 
   # Plot the original S&P 500 training and testing data without sequencing
-  plot_original('ML-Test_Repo/plots/original_plot.png', best_params)
+  plot_original('ML-Stock-Market-Prediction/plots/original_plot.png', best_params)
 
   # Plot the S&P 500 training, testing and predicted sequenced data
-  plot_sequenced('ML-Test_Repo/plots/sequenced_plot.png', best_params)
+  plot_sequenced('ML-Stock-Market-Prediction/plots/sequenced_plot.png', best_params)
 
   # Plot the training errors
-  plot_errors('ML-Test_Repo/plots/training_errors.png', best_params)
+  plot_errors('ML-Stock-Market-Prediction/plots/training_errors.png', best_params)
