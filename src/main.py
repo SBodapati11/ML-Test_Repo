@@ -16,12 +16,12 @@ data_source = 'https://github.com/SBodapati11/ML-Test_Repo/blob/main/data/all_st
 
 # Create a log file and try different parameters for the GRU model
 def hyperparameter_tuning():
-  with open("gru_logs.txt", 'w') as logfile:
+  with open("ML-Test_Repo/gru_logs.txt", 'w') as logfile:
     # Different values for our parameters
     sequence_lengths = [3,4,5]
 
     learning_rates = [0.0001, 0.00001, 0.000001]
-    epochs = [25, 50, 100]
+    epochs = [50, 100, 150]
     hidden_sizes = [5, 10, 20]
 
     # Store the parameters and errors after training the GRU model
@@ -53,8 +53,8 @@ def hyperparameter_tuning():
       y_train = index_data_obj.y_train
       x_test = index_data_obj.x_test
       y_test = index_data_obj.y_test
-      train = index_data_obj.index_data[:len(x_train)]
-      test = index_data_obj.index_data[len(x_train):len(x_train)+len(x_test)]
+      train = index_data_obj.index_data.iloc[:len(x_train),:]
+      test = index_data_obj.index_data.iloc[len(x_train):len(x_train)+len(x_test),:]
       train_errs = gru.train_errs
       train_err = train_errs[-1]
       test_output = gru.predict(index_data_obj.x_test)
