@@ -54,10 +54,8 @@ def hyperparameter_tuning():
       x_test = index_data_obj.x_test
       y_test = index_data_obj.y_test
       train_dates = index_data_obj.index_data['date'][:x_train.shape[1]]
-      print(train_dates)
       test_dates = index_data_obj.index_data['date'][x_train.shape[1]:x_train.shape[1]+x_test.shape[1]]
       train_indices = index_data_obj.index_data['index'][:x_train.shape[1]]
-      print(train_indices)
       test_indices = index_data_obj.index_data['index'][x_train.shape[1]:x_train.shape[1]+x_test.shape[1]]
       train_errs = gru.train_errs
       train_err = train_errs[-1]
