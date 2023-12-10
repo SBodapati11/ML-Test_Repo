@@ -57,7 +57,7 @@ def hyperparameter_tuning():
       test = index_data_obj.index_data[1000:]
       train_errs = gru.train_errs
       train_err = train_errs[-1]
-      test_output = gru.predict(index_data_obj.x_test, gru.weights)
+      test_output = gru.predict(index_data_obj.x_test)
       test_err = np.sum(np.square((test_output - index_data_obj.y_test))) / (sequence_length * gru.num_sequences)
 
       values.append({'sequence_length': sequence_length,
