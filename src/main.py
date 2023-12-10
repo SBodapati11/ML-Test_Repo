@@ -130,7 +130,7 @@ def plot_original(filepath, best_params):
 
 # Plot the sequenced S&P 500 Index data
 def plot_sequenced(filepath, best_params):
-  fig = plt.subplots(figsize=(16, 5))
+  fig2 = plt.subplots(figsize=(16, 5))
 
   # Plot training data
   x_train = best_params['scaler'].inverse_transform(best_params['x_train'][0])
@@ -157,6 +157,7 @@ def plot_sequenced(filepath, best_params):
 
 # Plot the training errors
 def plot_errors(filepath, best_params):
+  fig3 = plt.subplots(figsize=(5, 5))
   x = np.arange(0, best_params['num_epochs'])
   plt.plot(x, best_params['train_errs'], "r")
 
