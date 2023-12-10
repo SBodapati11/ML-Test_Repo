@@ -165,10 +165,10 @@ if __name__ == '__main__':
   best_params = best_parameters(parameter_values)
 
   # Plot the original S&P 500 training and testing data without sequencing
-  plot_original('../plots/original_plot.png', best_params)
+  plot_original('ML-Test_Repo/plots/original_plot.png', best_params)
 
   # Plot the S&P 500 training, testing and predicted sequenced data
-  plot_sequenced('../plots/sequenced_plot.png', best_params)
+  plot_sequenced('ML-Test_Repo/plots/sequenced_plot.png', best_params)
 
   # Plot the training errors
-  plot_errors('../plots/training_errors.png', best_params)
+  plot_errors('ML-Test_Repo/plots/training_errors.png', best_params)
