@@ -8,7 +8,7 @@ print("\n\n\n")
 !python ML-Test_Repo/src/main.py
 
 from IPython.display import Image, display
-display(Image('ML-Test_Repo/src/main.pyoriginal_plot.png'))
+display(Image('ML-Test_Repo/plots/original_plot.png'))
 print("\n\n\n")
 display(Image('ML-Test_Repo/plots/sequenced_plot.png'))
 print("\n\n\n")

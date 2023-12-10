@@ -53,8 +53,10 @@ def hyperparameter_tuning():
       y_train = index_data_obj.y_train
       x_test = index_data_obj.x_test
       y_test = index_data_obj.y_test
-      train = index_data_obj.index_data.iloc[:len(x_train),:]
-      test = index_data_obj.index_data.iloc[len(x_train):len(x_train)+len(x_test),:]
+      train_dates = index_data_obj.index_data['date'][:len(x_train)]
+      test_dates = index_data_obj.index_data['date'][len(x_train):len(x_train)+len(x_test)]
+      train_indices = index_data_obj.index_data['index'][:len(x_train)]
+      test_indices = index_data_obj.index_data['index'][len(x_train):len(x_train)+len(x_test)]
       train_errs = gru.train_errs
       train_err = train_errs[-1]
       test_output = gru.predict(index_data_obj.x_test)
@@ -72,8 +74,10 @@ def hyperparameter_tuning():
                       'y_test': y_test,
                       'train_errs': train_errs,
                       'test_output': test_output,
-                      'train': train,
-                      'test': test,
+                      'train_dates': train_dates,
+                      'test_dates': test_dates,
+                      'train_indices': train_indices,
+                      'test_indices': test_indices,
                       'scaler': index_data_obj.scaler})
       
     tabulate_values = [list(d.values())[:6] for d in values]
@@ -112,10 +116,10 @@ def plot_original(filepath, best_params):
   fig = plt.subplots(figsize=(16, 5))
 
   # Plot training data
-  plt.plot(best_params['train']['date'], best_params['train']['index'], color='r')
+  plt.plot(best_params['train_dates'], best_params['train_indices'], color='r')
   
   # Plot testing data
-  plt.plot(best_params['test']['date'], best_params['test']['index'], color='b')
+  plt.plot(best_params['test_dates'], best_params['test_indices'], color='b')
   
   plt.title("Daily S&P 500 Index (Unsequenced)")
   plt.legend(['Train', 'Test'])
@@ -128,14 +132,14 @@ def plot_sequenced(filepath, best_params):
   fig = plt.subplots(figsize=(16, 5))
 
   # Plot training data
-  plt.plot(best_params['train']['date'], best_params['x_train'], color='r')
+  plt.plot(best_params['train_dates'], best_params['x_train'][0], color='r')
 
   # Plot testing data
-  plt.plot(best_params['test']['date'], best_params['x_test'], color='b')
+  plt.plot(best_params['test_dates'], best_params['x_test'][0], color='b')
 
   # Plot predicted data
-  unscaled_data = best_params['scaler'].inverse_transform(best_params['test_output'])
-  plt.plot(best_params['test']['date'], unscaled_data, color='g')
+  unscaled_data = best_params['scaler'].inverse_transform(best_params['test_output'][0])
+  plt.plot(best_params['test_dates'], unscaled_data, color='g')
 
   plt.title("Daily S&P 500 Index (sequenced)")
   plt.legend(['Train', 'Test', 'Predicted'])
