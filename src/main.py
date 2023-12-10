@@ -49,14 +49,14 @@ def hyperparameter_tuning():
       gru.fit()
 
       # Get the parameters, data, and errors for the model
-      x_train = index_data_obj.x_train[0]
-      y_train = index_data_obj.y_train[0]
-      x_test = index_data_obj.x_test[0]
-      y_test = index_data_obj.y_test[0]
-      train_dates = index_data_obj.index_data['date'][:x_train.shape[0]]
-      test_dates = index_data_obj.index_data['date'][x_train.shape[0]:x_train.shape[0]+x_test.shape[0]]
-      train_indices = index_data_obj.index_data['index'][:x_train.shape[0]]
-      test_indices = index_data_obj.index_data['index'][x_train.shape[0]:x_train.shape[0]+x_test.shape[0]]
+      x_train = index_data_obj.x_train
+      y_train = index_data_obj.y_train
+      x_test = index_data_obj.x_test
+      y_test = index_data_obj.y_test
+      train_dates = index_data_obj.index_data['date'][:x_train.shape[1]]
+      test_dates = index_data_obj.index_data['date'][x_train.shape[1]:x_train.shape[1]+x_test.shape[1]]
+      train_indices = index_data_obj.index_data['index'][:x_train.shape[1]]
+      test_indices = index_data_obj.index_data['index'][x_train.shape[1]:x_train.shape[1]+x_test.shape[1]]
       train_errs = gru.train_errs
       train_err = train_errs[-1]
       test_output = gru.predict(index_data_obj.x_test)
@@ -133,12 +133,12 @@ def plot_sequenced(filepath, best_params):
   fig = plt.subplots(figsize=(16, 5))
 
   # Plot training data
-  x_train = best_params['scaler'].inverse_transform(best_params['x_train'])
+  x_train = best_params['scaler'].inverse_transform(best_params['x_train'][0])
   x_train = [np.mean(arr) for arr in x_train]
   plt.plot(best_params['train_dates'], x_train, color='r')
 
   # Plot testing data
-  x_test = best_params['scaler'].inverse_transform(best_params['x_test'])
+  x_test = best_params['scaler'].inverse_transform(best_params['x_test'][0])
   x_test = [np.mean(arr) for arr in x_test]
   plt.plot(best_params['test_dates'], x_test, color='b')
 
