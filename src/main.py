@@ -49,10 +49,10 @@ def hyperparameter_tuning():
       gru.fit()
 
       # Get the parameters, data, and errors for the model
-      x_train = index_data_obj.x_train
-      y_train = index_data_obj.y_train
-      x_test = index_data_obj.x_test
-      y_test = index_data_obj.y_test
+      x_train = index_data_obj.x_train[0]
+      y_train = index_data_obj.y_train[0]
+      x_test = index_data_obj.x_test[0]
+      y_test = index_data_obj.y_test[0]
       train_dates = index_data_obj.index_data['date'][:x_train.shape[1]]
       test_dates = index_data_obj.index_data['date'][x_train.shape[1]:x_train.shape[1]+x_test.shape[1]]
       train_indices = index_data_obj.index_data['index'][:x_train.shape[1]]
@@ -132,14 +132,19 @@ def plot_sequenced(filepath, best_params):
   fig = plt.subplots(figsize=(16, 5))
 
   # Plot training data
-  plt.plot(best_params['train_dates'], best_params['x_train'][0], color='r')
+  x_train = best_params['scaler'].inverse_transform(best_params['x_train'])
+  x_train = [np.mean(arr) for arr in x_train]
+  plt.plot(best_params['train_dates'], x_train, color='r')
 
   # Plot testing data
-  plt.plot(best_params['test_dates'], best_params['x_test'][0], color='b')
+  x_test = best_params['scaler'].inverse_transform(best_params['x_test'])
+  x_test = [np.mean(arr) for arr in x_test]
+  plt.plot(best_params['test_dates'], x_test, color='b')
 
   # Plot predicted data
-  unscaled_data = best_params['scaler'].inverse_transform(best_params['test_output'][0])
-  plt.plot(best_params['test_dates'], unscaled_data, color='g')
+  predicted_data = best_params['scaler'].inverse_transform(best_params['test_output'][0])
+  predicted_data = [np.mean(arr) for arr in predicted_data]
+  plt.plot(best_params['test_dates'], predicted_data, color='g')
 
   plt.title("Daily S&P 500 Index (sequenced)")
   plt.legend(['Train', 'Test', 'Predicted'])

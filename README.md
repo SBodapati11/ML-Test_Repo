@@ -4,15 +4,13 @@ We recommend using Google Colab to run the code since all requirements come prei
 
 ```bash
 !git clone https://github.com/SBodapati11/ML-Test_Repo.git
-print("\n\n\n")
+print("\n")
 !python ML-Test_Repo/src/main.py
 
 from IPython.display import Image, display
 display(Image('ML-Test_Repo/plots/original_plot.png'))
-print("\n\n\n")
 display(Image('ML-Test_Repo/plots/sequenced_plot.png'))
-print("\n\n\n")
 display(Image('ML-Test_Repo/plots/training_errors.png'))
-print("\n\n\n")
+print("\n")
 !cat ML-Test_Repo/gru_logs.txt
 ```
