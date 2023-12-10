@@ -21,7 +21,7 @@ def hyperparameter_tuning():
     sequence_lengths = [3,4,5]
 
     learning_rates = [0.0001, 0.00001, 0.000001]
-    epochs = [50, 100, 150]
+    epochs = [25, 50, 100]
     hidden_sizes = [5, 10, 20]
 
     # Store the parameters and errors after training the GRU model
@@ -143,7 +143,8 @@ def plot_sequenced(filepath, best_params):
 
   # Plot predicted data
   predicted_data = best_params['scaler'].inverse_transform(best_params['test_output'][0])
-  predicted_data = [np.mean(arr) for arr in predicted_data]
+  print(predicted_data)
+  predicted_data = [np.max(arr) for arr in predicted_data]
   plt.plot(best_params['test_dates'], predicted_data, color='g')
 
   plt.title("Daily S&P 500 Index (sequenced)")
