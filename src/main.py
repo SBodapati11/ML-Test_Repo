@@ -98,6 +98,7 @@ def best_parameters(values):
   for val_dict in values:
     avg_err = (val_dict['train_err'] + val_dict['test_err']) / 2
     if avg_err < best_avg_err:
+      best_avg_err = avg_err
       best_params = val_dict
 
   # Print the best parameters and errors
@@ -143,7 +144,6 @@ def plot_sequenced(filepath, best_params):
 
   # Plot predicted data
   predicted_data = best_params['scaler'].inverse_transform(best_params['test_output'][0])
-  print(predicted_data)
   predicted_data = [np.max(arr) for arr in predicted_data]
   plt.plot(best_params['test_dates'], predicted_data, color='g')
 
