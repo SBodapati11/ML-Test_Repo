@@ -53,8 +53,8 @@ def hyperparameter_tuning():
       y_train = index_data_obj.y_train
       x_test = index_data_obj.x_test
       y_test = index_data_obj.y_test
-      train = index_data_obj.index_data[:1000]
-      test = index_data_obj.index_data[1000:]
+      train = index_data_obj.index_data[:len(x_train)]
+      test = index_data_obj.index_data[len(x_train):len(x_train)+len(x_test)]
       train_errs = gru.train_errs
       train_err = train_errs[-1]
       test_output = gru.predict(index_data_obj.x_test)
@@ -110,14 +110,13 @@ def best_parameters(values):
 # Plot the original S&P 500 Index data without sequences
 def plot_original(filepath, best_params):
   fig = plt.subplots(figsize=(16, 5))
+
   # Plot training data
-  plt.plot(best_params['train']['date'][:len(best_params['x_train'])], 
-           best_params['train']['index'][:len(best_params['x_train'])], 
-           color='r')
+  plt.plot(best_params['train']['date'], best_params['train']['index'], color='r')
+  
   # Plot testing data
-  plt.plot(best_params['test']['date'][len(best_params['x_test']):len(best_params['x_test'])+len(best_params['x_test'])], 
-           best_params['test']['index'][len(best_params['x_test']):len(best_params['x_test'])+len(best_params['x_test'])], 
-           color='b')
+  plt.plot(best_params['test']['date'], best_params['test']['index'], color='b')
+  
   plt.title("Daily S&P 500 Index (Unsequenced)")
   plt.legend(['Train', 'Test'])
   plt.xlabel('Date')
@@ -127,19 +126,17 @@ def plot_original(filepath, best_params):
 # Plot the sequenced S&P 500 Index data
 def plot_sequenced(filepath, best_params):
   fig = plt.subplots(figsize=(16, 5))
+
   # Plot training data
-  plt.plot(best_params['train']['date'][:len(best_params['x_train'])], 
-           best_params['x_train'], 
-           color='r')
+  plt.plot(best_params['train']['date'], best_params['x_train'], color='r')
+
   # Plot testing data
-  plt.plot(best_params['test']['date'][len(best_params['x_test']):len(best_params['x_test'])+len(best_params['x_test'])], 
-           best_params['x_test'], 
-           color='b')
+  plt.plot(best_params['test']['date'], best_params['x_test'], color='b')
+
   # Plot predicted data
   unscaled_data = best_params['scaler'].inverse_transform(best_params['test_output'])
-  plt.plot(best_params['test']['date'][len(best_params['x_test']):len(best_params['x_test'])+len(best_params['x_test'])], 
-           unscaled_data, 
-           color='g')
+  plt.plot(best_params['test']['date'], unscaled_data, color='g')
+
   plt.title("Daily S&P 500 Index (sequenced)")
   plt.legend(['Train', 'Test', 'Predicted'])
   plt.xlabel('Date')
@@ -148,9 +145,9 @@ def plot_sequenced(filepath, best_params):
 
 # Plot the training errors
 def plot_errors(filepath, best_params):
-  # Plot the errors
   x = np.arange(0, best_params['num_epochs'])
   plt.plot(x, best_params['train_errs'], "r")
+
   plt.title("Training Errors Across {} Epochs".format(best_params['num_epochs']))
   plt.xlabel("Epochs")
   plt.ylabel("Error")
